@@ -54,6 +54,58 @@ class ListaEnlazada {
     obtenerTamanio() {
         return this.tamanio;
     }
+
+    buscar(condicion) {
+        let actual = this.cabeza;
+        while (actual !== null) {
+            if (condicion(actual.dato)) {
+                return actual.dato;
+            }
+            actual = actual.siguiente;
+        }
+        return null;
+    }
+
+    insertarDespuesDe(condicion, dato) {
+        let actual = this.cabeza;
+        while (actual !== null && !condicion(actual.dato)) {
+            actual = actual.siguiente;
+        }
+        if (actual === null) {
+            return false;
+        }
+        const nuevoNodo = new Nodo(dato);
+        nuevoNodo.siguiente = actual.siguiente;
+        actual.siguiente = nuevoNodo;
+        if (actual === this.cola) {
+            this.cola = nuevoNodo;
+        }
+        this.tamanio++;
+        return true;
+    }
+
+    eliminar(condicion) {
+        let anterior = null;
+        let actual = this.cabeza;
+        while (actual !== null && !condicion(actual.dato)) {
+            anterior = actual;
+            actual = actual.siguiente;
+        }
+        if (actual === null) {
+            return null;
+        }
+        if (anterior === null) {
+            this.cabeza = actual.siguiente;
+        } else {
+            anterior.siguiente = actual.siguiente;
+        }
+        if (actual === this.cola) {
+            this.cola = anterior;
+        }
+        actual.siguiente = null;
+        this.tamanio--;
+        return actual.dato;
+    }
 }
 
 module.exports = ListaEnlazada;

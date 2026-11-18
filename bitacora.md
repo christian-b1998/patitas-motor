@@ -81,3 +81,41 @@ Cambia:  cabeza, tamanio y el siguiente de D (el nodo nuevo, que apunta a A). La
 | `aArreglo` | O(n) | Llama a `recorrer`, que visita los n nodos, y hace un `push` por cada uno. También usa memoria extra proporcional a n. |
 | `estaVacia` | O(1) | Solo compara `cabeza` con `null`. |
 | `obtenerTamanio` | O(1) | Devuelve el contador `tamanio`, que se mantiene al agregar. No cuenta los nodos. |
+
+## MiniReto 3: eliminación
+
+### Eliminar la cabeza (A)
+
+```
+Antes:   cabeza -> [A] -> [B] -> [C] -> null     cola -> [C]     tamanio = 3
+Después: cabeza -> [B] -> [C] -> null     cola -> [C]     tamanio = 2
+Cambia:  cabeza (pasa a B) y tamanio. La cola no cambia. A queda desconectado.
+```
+
+### Eliminar un nodo intermedio (B)
+
+```
+Antes:   cabeza -> [A] -> [B] -> [C] -> null     cola -> [C]     tamanio = 3
+Después: cabeza -> [A] -> [C] -> null     cola -> [C]     tamanio = 2
+Cambia:  el siguiente de A (salta a C) y tamanio. Cabeza y cola no cambian.
+```
+
+### Eliminar la cola (C)
+
+```
+Antes:   cabeza -> [A] -> [B] -> [C] -> null     cola -> [C]     tamanio = 3
+Después: cabeza -> [A] -> [B] -> null     cola -> [B]     tamanio = 2
+Cambia:  el siguiente de B (pasa a null), cola (pasa a B) y tamanio. La cabeza no cambia.
+```
+
+## Complejidad
+
+| Método | Complejidad | Por qué |
+|---|---|---|
+| `buscar` | O(n) | En el peor caso el dato está al final o no existe, y visita los n nodos. |
+| `insertarDespuesDe` | O(n) | Encontrar el nodo cuesta O(n) en el peor caso. Enlazar el nodo nuevo es O(1). |
+| `eliminar` | O(n) | Encontrar el nodo cuesta O(n) en el peor caso. Reconectar las referencias es O(1). Si el nodo es la cabeza, solo hace una comparación. |
+
+## ¿Por qué eliminar la cola requiere recorrer la lista?
+
+Para eliminar la cola hay que hacer que el nodo anterior quede con `siguiente` en `null` y que pase a ser la nueva cola. Pero en una lista simplemente enlazada cada nodo solo apunta hacia adelante, y la cola no sabe quién la precede. La referencia `cola` solo señala el último nodo, no el penúltimo. La única forma de llegar al penúltimo es empezar en `cabeza` y avanzar hasta el nodo cuyo `siguiente` es la cola, lo que visita casi todos los nodos: O(n). Es la diferencia con `agregarAlFinal`, que es O(1) porque solo necesita la cola, y no su anterior.

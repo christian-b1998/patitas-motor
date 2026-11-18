@@ -15,3 +15,9 @@ Pruebas de la lista enlazada:
 ```bash
 node pruebas/lista.js
 ```
+
+Correcciones del historial (buscar, insertar, eliminar):
+
+```bash
+node pruebas/correcciones.js
+```
