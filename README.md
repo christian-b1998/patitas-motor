@@ -1,23 +1,28 @@
 # patitas-motor
 
-Motor de historial clínico para Patitas. Las atenciones de una mascota se guardan como nodos enlazados, y una lista enlazada con referencias a cabeza y cola permite agregarlas al inicio y al final en tiempo constante.
+Motor de historial clínico para la clínica veterinaria Patitas (v0.1). Guarda las atenciones de cada mascota en una lista enlazada y genera un reporte con los historiales, el número de atenciones, el costo total y la última vacunación.
 
 ## Ejecutar
 
-Recorrido de nodos enlazados a mano:
+Requiere Node.js.
+
+Reporte de historiales:
+
+```bash
+node src/reporte.js
+```
+
+Pruebas:
 
 ```bash
 node pruebas/nodos.js
-```
-
-Pruebas de la lista enlazada:
-
-```bash
 node pruebas/lista.js
-```
-
-Correcciones del historial (buscar, insertar, eliminar):
-
-```bash
 node pruebas/correcciones.js
 ```
+
+## Estructuras
+
+- `Nodo` (`src/Nodo.js`): guarda un dato y la referencia al siguiente nodo.
+- `ListaEnlazada` (`src/ListaEnlazada.js`): lista simplemente enlazada con cabeza, cola y tamaño. Agrega al inicio y al final, recorre, busca, inserta después de un nodo y elimina.
+- `RegistroClinico` (`src/RegistroClinico.js`): guarda un historial (`ListaEnlazada`) por mascota en un `Map`.
+- `bitacora.md`: diagramas de nodos, casos borde, complejidades y comparación entre lista enlazada y arreglo.

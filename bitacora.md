@@ -119,3 +119,15 @@ Cambia:  el siguiente de B (pasa a null), cola (pasa a B) y tamanio. La cabeza n
 ## ¿Por qué eliminar la cola requiere recorrer la lista?
 
 Para eliminar la cola hay que hacer que el nodo anterior quede con `siguiente` en `null` y que pase a ser la nueva cola. Pero en una lista simplemente enlazada cada nodo solo apunta hacia adelante, y la cola no sabe quién la precede. La referencia `cola` solo señala el último nodo, no el penúltimo. La única forma de llegar al penúltimo es empezar en `cabeza` y avanzar hasta el nodo cuyo `siguiente` es la cola, lo que visita casi todos los nodos: O(n). Es la diferencia con `agregarAlFinal`, que es O(1) porque solo necesita la cola, y no su anterior.
+
+## MiniReto 4: lista enlazada vs. arreglo
+
+| Operación | Lista enlazada (con cola) | Arreglo | Por qué |
+|---|---|---|---|
+| Agregar al final | O(1) | O(1) | Lista: la `cola` evita recorrer. Arreglo: `push` escribe en la última posición. |
+| Agregar al inicio | O(1) | O(n) | Lista: solo cambia `cabeza`. Arreglo: `unshift` desplaza los n elementos una posición. |
+| Acceder a la atención número k | O(n) | O(1) | Lista: hay que avanzar k nodos desde la cabeza. Arreglo: el índice lleva directo a la posición. |
+| Buscar | O(n) | O(n) | En ambas hay que revisar elemento por elemento en el peor caso. |
+| Eliminar la primera | O(1) | O(n) | Lista: `cabeza` pasa al siguiente nodo. Arreglo: `shift` desplaza los demás una posición. |
+
+Notas: `push` es O(1) amortizado. Si en vez de la primera atención se elimina la primera que cumpla una condición, ambas estructuras son O(n), porque primero hay que encontrarla.
