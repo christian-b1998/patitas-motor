@@ -171,3 +171,38 @@ Cambia:  frente (pasa a Toby) y cantidad. El final no cambia.
 ### Explicación de la diferencia
 
 En la `Cola`, `encolar` solo usa `final` y `desencolar` solo mueve `frente`. Hacen un número fijo de asignaciones sin importar cuántos turnos haya, por eso son O(1). En el arreglo, `push` es barato, pero `shift` saca el primer elemento y debe mover todos los demás una posición, O(n). Al desencolar 100.000 turnos, ese movimiento se repite 100.000 veces, unos n²/2 movimientos en total, y por eso tarda segundos mientras que la cola tarda milisegundos. La `Cola` encola un poco más lento que `push` porque crea un nodo por turno, pero ese costo es pequeño y constante frente al de `shift`.
+
+## MiniReto 6: urgencias primero
+
+### Cálculo manual
+
+Cada atención dura 20 minutos y hay un solo consultorio. Solo se atiende a quien ya llegó, y si alguien llega justo cuando el consultorio queda libre, cuenta como ya llegado.
+
+| Hora | Qué pasa | Esperando | Atiende |
+|---|---|---|---|
+| 8:00 | Llega Toby y el consultorio está libre | nadie | Toby (8:00 a 8:20) |
+| 8:20 | Termina Toby. Ya llegaron Max, Luna y Simón | Urgencias: Luna. Generales: Max, Simón | Luna (8:20 a 8:40) |
+| 8:40 | Termina Luna. Ya llegaron Kira y Nala | Urgencias: Kira. Generales: Max, Simón, Nala | Kira (8:40 a 9:00) |
+| 9:00 | Termina Kira. Llega Rocky | Urgencias: Rocky. Generales: Max, Simón, Nala | Rocky (9:00 a 9:20) |
+| 9:20 | Termina Rocky | Generales: Max, Simón, Nala | Max (9:20 a 9:40) |
+| 9:40 | Termina Max | Generales: Simón, Nala | Simón (9:40 a 10:00) |
+| 10:00 | Termina Simón | Generales: Nala | Nala (10:00 a 10:20) |
+
+### Resultado manual
+
+| Orden | Mascota | Tipo | Llegada | Inicio | Espera |
+|---|---|---|---|---|---|
+| 1 | Toby | General | 8:00 | 8:00 | 0 min |
+| 2 | Luna | Urgencia | 8:10 | 8:20 | 10 min |
+| 3 | Kira | Urgencia | 8:25 | 8:40 | 15 min |
+| 4 | Rocky | Urgencia | 9:00 | 9:00 | 0 min |
+| 5 | Max | General | 8:05 | 9:20 | 75 min |
+| 6 | Simón | General | 8:20 | 9:40 | 80 min |
+| 7 | Nala | General | 8:40 | 10:00 | 80 min |
+
+Promedio de espera en urgencias: (10 + 15 + 0) / 3 = 8,33 min.
+Promedio de espera en generales: (0 + 75 + 80 + 80) / 4 = 58,75 min.
+
+### Comparación con el programa
+
+`node src/simulacion.js` produce el mismo orden, las mismas horas de inicio, las mismas esperas y los mismos promedios que el cálculo manual. No hubo diferencias que documentar.
