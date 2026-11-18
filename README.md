@@ -26,3 +26,15 @@ node pruebas/correcciones.js
 - `ListaEnlazada` (`src/ListaEnlazada.js`): lista simplemente enlazada con cabeza, cola y tamaño. Agrega al inicio y al final, recorre, busca, inserta después de un nodo y elimina.
 - `RegistroClinico` (`src/RegistroClinico.js`): guarda un historial (`ListaEnlazada`) por mascota en un `Map`.
 - `bitacora.md`: diagramas de nodos, casos borde, complejidades y comparación entre lista enlazada y arreglo.
+
+Cola de turnos:
+
+```bash
+node pruebas/cola.js
+```
+
+Comparación de la cola con un arreglo (puede tardar unos segundos):
+
+```bash
+node pruebas/comparacion.js
+```

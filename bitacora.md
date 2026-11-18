@@ -131,3 +131,43 @@ Para eliminar la cola hay que hacer que el nodo anterior quede con `siguiente` e
 | Eliminar la primera | O(1) | O(n) | Lista: `cabeza` pasa al siguiente nodo. Arreglo: `shift` desplaza los demás una posición. |
 
 Notas: `push` es O(1) amortizado. Si en vez de la primera atención se elimina la primera que cumpla una condición, ambas estructuras son O(n), porque primero hay que encontrarla.
+
+## MiniReto 5: la cola de turnos
+
+### Estado de la cola
+
+Después de encolar a Lola, Toby y Mía:
+
+```
+frente -> [Lola] -> [Toby] -> [Mía] -> null     final -> [Mía]     cantidad = 3
+```
+
+Después de desencolar una vez (sale Lola):
+
+```
+frente -> [Toby] -> [Mía] -> null     final -> [Mía]     cantidad = 2
+Cambia:  frente (pasa a Toby) y cantidad. El final no cambia.
+```
+
+### Medición con 100.000 turnos
+
+| Operación | Tiempo |
+|---|---|
+| Cola: encolar | ___ ms |
+| Cola: desencolar | ___ ms |
+| Arreglo: push | ___ ms |
+| Arreglo: shift | ___ |
+
+### Complejidad
+
+| Operación | Cola (nodos) | Arreglo | Por qué |
+|---|---|---|---|
+| Encolar | O(1) | `push`: O(1) amortizado | Cola: usa `final`, sin recorrer. Arreglo: escribe en la última posición. |
+| Desencolar | O(1) | `shift`: O(n) | Cola: solo mueve `frente`. Arreglo: mueve los n-1 elementos restantes una posición. |
+| Ver el frente | O(1) | `arreglo[0]`: O(1) | Ambos acceden directo al primer elemento. |
+| Saber si está vacía | O(1) | `length === 0`: O(1) | Ambos comparan un valor guardado. |
+| Tamaño | O(1) | `length`: O(1) | La cola lleva un contador, el arreglo guarda su longitud. |
+
+### Explicación de la diferencia
+
+En la `Cola`, `encolar` solo usa `final` y `desencolar` solo mueve `frente`. Hacen un número fijo de asignaciones sin importar cuántos turnos haya, por eso son O(1). En el arreglo, `push` es barato, pero `shift` saca el primer elemento y debe mover todos los demás una posición, O(n). Al desencolar 100.000 turnos, ese movimiento se repite 100.000 veces, unos n²/2 movimientos en total, y por eso tarda segundos mientras que la cola tarda milisegundos. La `Cola` encola un poco más lento que `push` porque crea un nodo por turno, pero ese costo es pequeño y constante frente al de `shift`.
