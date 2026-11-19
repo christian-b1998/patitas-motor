@@ -206,3 +206,38 @@ Promedio de espera en generales: (0 + 75 + 80 + 80) / 4 = 58,75 min.
 ### Comparación con el programa
 
 `node src/simulacion.js` produce el mismo orden, las mismas horas de inicio, las mismas esperas y los mismos promedios que el cálculo manual. No hubo diferencias que documentar.
+
+## MiniReto 7: la pila y el deshacer
+
+### Decisión: pila con nodos
+
+La `Pila` se construyó con nodos, reutilizando `Nodo`. `apilar` y `desapilar` operan siempre sobre el tope, sin recorrer nada, y son O(1) en el peor caso. Con un arreglo (`push` y `pop`) también serían O(1), pero `push` solo es O(1) amortizado, porque a veces el arreglo debe crecer y copiar sus elementos.
+
+### Complejidad de la pila
+
+| Operación | Complejidad | Por qué |
+|---|---|---|
+| `apilar` | O(1) | Crea un nodo y mueve el tope. |
+| `desapilar` | O(1) | Mueve el tope al siguiente nodo. |
+| `verTope` | O(1) | Lee el dato del tope. |
+| `estaVacia` | O(1) | Compara el tope con `null`. |
+| `tamanio` | O(1) | Devuelve el contador. |
+
+### Traza de la secuencia
+
+Las pilas se muestran con el tope primero. El historial es el de Lola.
+
+| Paso | Acción | Historial | Pila deshacer | Pila rehacer |
+|---|---|---|---|---|
+| 1 | agregar A | [A] | [agregar A] | [] |
+| 2 | agregar B | [A, B] | [agregar B, agregar A] | [] |
+| 3 | eliminar A | [B] | [eliminar A, agregar B, agregar A] | [] |
+| 4 | deshacer | [A, B] | [agregar B, agregar A] | [eliminar A] |
+| 5 | deshacer | [A] | [agregar A] | [agregar B, eliminar A] |
+| 6 | rehacer | [A, B] | [agregar B, agregar A] | [eliminar A] |
+| 7 | agregar C | [A, B, C] | [agregar C, agregar B, agregar A] | [] |
+| 8 | rehacer | [A, B, C] | [agregar C, agregar B, agregar A] | [] |
+
+- **Paso 4:** deshacer la eliminación de A la repone en su lugar original, al inicio del historial.
+- **Paso 7:** agregar C es una acción nueva, así que vacía la pila de rehacer y se pierde "eliminar A".
+- **Paso 8:** rehacer no hace nada porque la pila de rehacer está vacía, y no produce errores.
