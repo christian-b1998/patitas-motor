@@ -241,3 +241,17 @@ Las pilas se muestran con el tope primero. El historial es el de Lola.
 - **Paso 4:** deshacer la eliminación de A la repone en su lugar original, al inicio del historial.
 - **Paso 7:** agregar C es una acción nueva, así que vacía la pila de rehacer y se pierde "eliminar A".
 - **Paso 8:** rehacer no hace nada porque la pila de rehacer está vacía, y no produce errores.
+
+## MiniReto 8: estructuras del motor v0.2
+
+| Estructura | Principio | Uso en Patitas | Operaciones principales y complejidad |
+|---|---|---|---|
+| `Nodo` | Pieza básica: un dato y la referencia al siguiente | Base de la lista, la cola y la pila | Crear un nodo: O(1) |
+| `ListaEnlazada` | Secuencial | Historial de atenciones de cada mascota | agregarAlInicio O(1), agregarAlFinal O(1), recorrer O(n), buscar O(n), insertarDespuesDe O(n), eliminar O(n) |
+| `RegistroClinico` | Índice por nombre (Map) con una lista por mascota | Guarda el historial de cada mascota | registrarAtencion O(1) en promedio, obtenerHistorial O(1) en promedio |
+| `Cola` | FIFO | Turnos en la sala de espera | encolar O(1), desencolar O(1), verFrente O(1) |
+| `Recepcion` | FIFO con prioridad (dos colas) | Atiende las urgencias antes que las consultas generales | registrarLlegada O(1), llamarSiguiente O(1) |
+| `Pila` | LIFO | Acciones para deshacer y rehacer | apilar O(1), desapilar O(1), verTope O(1) |
+| `Editor` | LIFO (dos pilas) | Agregar y eliminar atenciones con deshacer y rehacer | agregar O(1), eliminar O(n), deshacer O(n), rehacer O(n) |
+
+En `Editor`, las operaciones de las pilas son O(1). La n de `eliminar`, `deshacer` y `rehacer` son las atenciones del historial de esa mascota, porque revertir o aplicar una acción puede requerir buscar un nodo en la lista.
