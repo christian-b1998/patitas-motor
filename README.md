@@ -10,6 +10,7 @@ Motor de historial clínico para la clínica veterinaria Patitas (v0.2). Guarda 
 - Cada atención terminada queda registrada en el historial de su mascota.
 - Deshacer y rehacer sobre el registro clínico, con la corrección de un error de la recepcionista.
 - Llamar al siguiente con la sala vacía muestra un aviso y no falla.
+- Catálogo de servicios anidado (`src/catalogo.js`) con funciones recursivas para contar servicios, listar la jerarquía y calcular la profundidad.
 
 ## Ejecutar
 
@@ -37,6 +38,7 @@ node pruebas/cola.js
 node pruebas/pila.js
 node pruebas/editor.js
 node pruebas/recepcion.js
+node pruebas/catalogo.js
 ```
 
 Comparación de la cola con un arreglo (puede tardar unos segundos):

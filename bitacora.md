@@ -255,3 +255,28 @@ Las pilas se muestran con el tope primero. El historial es el de Lola.
 | `Editor` | LIFO (dos pilas) | Agregar y eliminar atenciones con deshacer y rehacer | agregar O(1), eliminar O(n), deshacer O(n), rehacer O(n) |
 
 En `Editor`, las operaciones de las pilas son O(1). La n de `eliminar`, `deshacer` y `rehacer` son las atenciones del historial de esa mascota, porque revertir o aplicar una acción puede requerir buscar un nodo en la lista.
+
+## MiniReto 9: catálogo de servicios (recursión)
+
+### Diseño de cada función
+
+| Función | Caso base | Reducción | Combinación |
+|---|---|---|---|
+| `contarServicios(categoria)` | Una categoría sin subcategorías: el `for...of` no se ejecuta y devuelve solo sus servicios | Cada subcategoría es una categoría más pequeña, con un nivel menos | Suma los servicios propios más lo que devuelve cada subcategoría |
+| `listarCatalogo(categoria, nivel)` | Una categoría sin subcategorías: imprime su nombre y sus servicios y no hace más llamadas | Llama con cada subcategoría y `nivel + 1` | No devuelve nada: la categoría se imprime antes que sus subcategorías y la sangría (`nivel * 2` espacios) muestra la jerarquía |
+| `profundidad(categoria)` | Una categoría sin subcategorías tiene 1 nivel | Llama con cada subcategoría | 1 más la mayor profundidad entre sus subcategorías |
+
+En las tres, el caso base es implícito: no hay un `if` que lo detecte, simplemente el `for...of` no tiene nada que recorrer. La profundidad cuenta la categoría misma, así que Patitas, Consultas y Especializada son 3 niveles.
+
+### Traza de la pila de llamadas: `contarServicios(Cirugías)`
+
+Cirugías no tiene servicios propios y sus subcategorías son Esterilización (2 servicios) y Limpieza dental (1 servicio). La pila se lee de abajo hacia el tope.
+
+| Paso | Evento | Pila de llamadas | Valor |
+|---|---|---|---|
+| 1 | Se llama `contarServicios(Cirugías)` | Cirugías | `total = 0` |
+| 2 | El `for...of` toma Esterilización y la llama | Cirugías, Esterilización | `total = 2` en Esterilización |
+| 3 | Esterilización no tiene subcategorías y devuelve 2 | Cirugías | `total = 0 + 2 = 2` |
+| 4 | El `for...of` toma Limpieza dental y la llama | Cirugías, Limpieza dental | `total = 1` en Limpieza dental |
+| 5 | Limpieza dental devuelve 1 | Cirugías | `total = 2 + 1 = 3` |
+| 6 | Cirugías termina el `for...of` y devuelve 3 | (vacía) | resultado: 3 |
