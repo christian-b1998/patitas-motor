@@ -81,4 +81,75 @@ function profundidad(categoria) {
     return 1 + maxima;
 }
 
-module.exports = { catalogo, contarServicios, listarCatalogo, profundidad };
+function buscarServicio(categoria, nombre) {
+    for (const servicio of categoria.servicios) {
+        if (servicio.nombre === nombre) {
+            return servicio;
+        }
+    }
+    for (const subcategoria of categoria.subcategorias) {
+        const encontrado = buscarServicio(subcategoria, nombre);
+        if (encontrado !== null) {
+            return encontrado;
+        }
+    }
+    return null;
+}
+
+function rutaDeServicio(categoria, nombre) {
+    for (const servicio of categoria.servicios) {
+        if (servicio.nombre === nombre) {
+            return [categoria.nombre, servicio.nombre];
+        }
+    }
+    for (const subcategoria of categoria.subcategorias) {
+        const rutaDesdeSubcategoria = rutaDeServicio(subcategoria, nombre);
+        if (rutaDesdeSubcategoria !== null) {
+            return [categoria.nombre].concat(rutaDesdeSubcategoria);
+        }
+    }
+    return null;
+}
+
+const DESCUENTO_PAQUETE = 0.10;
+
+function sumarPrecios(categoria) {
+    let total = 0;
+    for (const servicio of categoria.servicios) {
+        total += servicio.precio;
+    }
+    for (const subcategoria of categoria.subcategorias) {
+        total += sumarPrecios(subcategoria);
+    }
+    return total;
+}
+
+function precioPaquete(categoria) {
+    const total = sumarPrecios(categoria);
+    return Math.round(total * (1 - DESCUENTO_PAQUETE));
+}
+
+function serviciosEnRango(categoria, min, max) {
+    let encontrados = [];
+    for (const servicio of categoria.servicios) {
+        if (servicio.precio >= min && servicio.precio <= max) {
+            encontrados.push(servicio);
+        }
+    }
+    for (const subcategoria of categoria.subcategorias) {
+        encontrados = encontrados.concat(serviciosEnRango(subcategoria, min, max));
+    }
+    return encontrados;
+}
+
+module.exports = {
+    catalogo,
+    contarServicios,
+    listarCatalogo,
+    profundidad,
+    buscarServicio,
+    rutaDeServicio,
+    sumarPrecios,
+    precioPaquete,
+    serviciosEnRango
+};

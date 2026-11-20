@@ -280,3 +280,34 @@ Cirugías no tiene servicios propios y sus subcategorías son Esterilización (2
 | 4 | El `for...of` toma Limpieza dental y la llama | Cirugías, Limpieza dental | `total = 1` en Limpieza dental |
 | 5 | Limpieza dental devuelve 1 | Cirugías | `total = 2 + 1 = 3` |
 | 6 | Cirugías termina el `for...of` y devuelve 3 | (vacía) | resultado: 3 |
+
+## MiniReto 10: el error del descuento repetido
+
+El descuento del 10 % se aplica una sola vez, al final, sobre la suma total. El error común es aplicarlo dentro de la función recursiva, en cada llamada:
+
+```javascript
+function precioPaqueteIncorrecto(categoria) {
+    let total = 0;
+    for (const servicio of categoria.servicios) {
+        total += servicio.precio;
+    }
+    for (const subcategoria of categoria.subcategorias) {
+        total += precioPaqueteIncorrecto(subcategoria);
+    }
+    return total * 0.9;
+}
+```
+
+Resultado con la categoría Cirugías (Esterilización: Gata 280.000 y Perra 350.000; Limpieza dental: Con anestesia 150.000):
+
+| Llamada | Suma | Con descuento en cada llamada |
+|---|---|---|
+| Esterilización | 280.000 + 350.000 = 630.000 | 630.000 × 0,9 = 567.000 |
+| Limpieza dental | 150.000 | 150.000 × 0,9 = 135.000 |
+| Cirugías | 567.000 + 135.000 = 702.000 | 702.000 × 0,9 = 631.800 |
+
+El resultado incorrecto es 631.800. El correcto es 780.000 × 0,9 = 702.000. La diferencia es de 70.200.
+
+Está mal porque los servicios de Esterilización y de Limpieza dental se descuentan dos veces: una al calcular su propia categoría y otra cuando Cirugías suma esos resultados, que ya traían el descuento. Cada servicio queda en 0,9 × 0,9 = 81 % de su precio, es decir, 19 % de descuento y no 10 %. En un catálogo más profundo es peor, porque cada nivel por el que pasa el servicio vuelve a aplicar el descuento: en todo el catálogo de Patitas daría 970.380 en vez de 1.170.000.
+
+La corrección es separar las dos tareas: `sumarPrecios` es recursiva y solo suma, y `precioPaquete` la llama una vez y aplica el descuento una sola vez, al final.

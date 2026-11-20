@@ -11,6 +11,7 @@ Motor de historial clínico para la clínica veterinaria Patitas (v0.2). Guarda 
 - Deshacer y rehacer sobre el registro clínico, con la corrección de un error de la recepcionista.
 - Llamar al siguiente con la sala vacía muestra un aviso y no falla.
 - Catálogo de servicios anidado (`src/catalogo.js`) con funciones recursivas para contar servicios, listar la jerarquía y calcular la profundidad.
+- Búsqueda recursiva en el catálogo: servicio por nombre, ruta completa del servicio, precio de un paquete con 10 % de descuento y servicios dentro de un rango de precio.
 
 ## Ejecutar
 
@@ -39,6 +40,7 @@ node pruebas/pila.js
 node pruebas/editor.js
 node pruebas/recepcion.js
 node pruebas/catalogo.js
+node pruebas/busqueda.js
 ```
 
 Comparación de la cola con un arreglo (puede tardar unos segundos):
