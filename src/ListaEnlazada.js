@@ -1,5 +1,37 @@
 const Nodo = require('./Nodo');
 
+function contarDesde(nodo) {
+    if (nodo === null) {
+        return 0;
+    }
+    return 1 + contarDesde(nodo.siguiente);
+}
+
+function sumarCostosDesde(nodo) {
+    if (nodo === null) {
+        return 0;
+    }
+    return nodo.dato.costo + sumarCostosDesde(nodo.siguiente);
+}
+
+function buscarDesde(nodo, condicion) {
+    if (nodo === null) {
+        return null;
+    }
+    if (condicion(nodo.dato)) {
+        return nodo.dato;
+    }
+    return buscarDesde(nodo.siguiente, condicion);
+}
+
+function imprimirAlRevesDesde(nodo, mostrar) {
+    if (nodo === null) {
+        return;
+    }
+    imprimirAlRevesDesde(nodo.siguiente, mostrar);
+    mostrar(nodo.dato);
+}
+
 class ListaEnlazada {
     constructor() {
         this.cabeza = null;
@@ -36,12 +68,12 @@ class ListaEnlazada {
         while (actual !== null) {
             callback(actual.dato);
             actual = actual.siguiente;
-        }   
+        }
     }
 
     aArreglo() {
         const resultado = [];
-        this.recorrer(  dato => {
+        this.recorrer(dato => {
             resultado.push(dato);
         });
         return resultado;
@@ -105,6 +137,32 @@ class ListaEnlazada {
         actual.siguiente = null;
         this.tamanio--;
         return actual.dato;
+    }
+
+    costoTotal() {
+        let total = 0;
+        let actual = this.cabeza;
+        while (actual !== null) {
+            total += actual.dato.costo;
+            actual = actual.siguiente;
+        }
+        return total;
+    }
+
+    tamanioRecursivo() {
+        return contarDesde(this.cabeza);
+    }
+
+    costoTotalRecursivo() {
+        return sumarCostosDesde(this.cabeza);
+    }
+
+    buscarRecursivo(condicion) {
+        return buscarDesde(this.cabeza, condicion);
+    }
+
+    imprimirAlReves(mostrar = dato => console.log(dato)) {
+        imprimirAlRevesDesde(this.cabeza, mostrar);
     }
 }
 

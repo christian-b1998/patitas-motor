@@ -311,3 +311,45 @@ El resultado incorrecto es 631.800. El correcto es 780.000 × 0,9 = 702.000. La 
 Está mal porque los servicios de Esterilización y de Limpieza dental se descuentan dos veces: una al calcular su propia categoría y otra cuando Cirugías suma esos resultados, que ya traían el descuento. Cada servicio queda en 0,9 × 0,9 = 81 % de su precio, es decir, 19 % de descuento y no 10 %. En un catálogo más profundo es peor, porque cada nivel por el que pasa el servicio vuelve a aplicar el descuento: en todo el catálogo de Patitas daría 970.380 en vez de 1.170.000.
 
 La corrección es separar las dos tareas: `sumarPrecios` es recursiva y solo suma, y `precioPaquete` la llama una vez y aplica el descuento una sola vez, al final.
+
+## MiniReto 11: el historial de forma recursiva
+
+### Por qué la pila de llamadas invierte el orden en `imprimirAlReves`
+
+`imprimirAlRevesDesde(nodo)` llama primero a sí misma con `nodo.siguiente` y solo después muestra el dato de su nodo. Con el historial de Lola (02/02, 15/03, 20/05) las llamadas se apilan hasta llegar a `null`, el caso base, y luego van terminando de la última a la primera:
+
+| Paso | Qué ocurre | Pila de llamadas (base al tope) |
+|---|---|---|
+| 1 | Se llama con el nodo 02/02, que llama al siguiente | 02/02 |
+| 2 | Se llama con el nodo 15/03 | 02/02, 15/03 |
+| 3 | Se llama con el nodo 20/05 | 02/02, 15/03, 20/05 |
+| 4 | Se llama con `null` y termina | 02/02, 15/03, 20/05 |
+| 5 | 20/05 muestra su dato y termina | 02/02, 15/03 |
+| 6 | 15/03 muestra su dato y termina | 02/02 |
+| 7 | 02/02 muestra su dato y termina | (vacía) |
+
+La última llamada en entrar es la primera en terminar (LIFO), así que la atención más reciente se muestra primero. La pila de llamadas hace el trabajo de la pila explícita que habría que construir con una versión iterativa, y el método no usa arreglos ni pilas propios.
+
+### Desbordamiento de pila con 100.000 atenciones
+
+`tamanioRecursivo()` sobre una lista con 100.000 atenciones lanza `RangeError: Maximum call stack size exceeded`. La versión iterativa funciona con la misma lista (tamaño 100.000 y costo total 100.000.000). En este equipo la versión recursiva funcionó con 15000 atenciones y falló con 20000.
+
+La causa: cada llamada debe esperar el resultado de la siguiente para sumarle 1, así que ninguna termina antes de llegar al final y las n llamadas quedan apiladas a la vez. La memoria que usa la pila crece con el largo de la lista, O(n), y Node le da un espacio fijo. Cuando se acaba, lanza el error. Que la última instrucción sea una llamada recursiva tampoco lo evita, porque Node no optimiza ese caso.
+
+### Tiempo y memoria de cada operación
+
+| Operación | Iterativa: tiempo | Iterativa: memoria | Recursiva: tiempo | Recursiva: memoria |
+|---|---|---|---|---|
+| Tamaño | O(1) con el contador `obtenerTamanio()` (O(n) si se cuenta con un ciclo) | O(1) | O(n) | O(n) |
+| Costo total | O(n) | O(1) | O(n) | O(n) |
+| Buscar | O(n) en el peor caso | O(1) | O(n) en el peor caso | O(n) en el peor caso, una llamada pendiente por cada nodo recorrido |
+| Imprimir al revés | O(n) | O(n), hay que guardar los datos en un arreglo o una pila | O(n) | O(n), la pila de llamadas |
+
+### Versión oficial de cada operación
+
+| Operación | Versión oficial | Justificación |
+|---|---|---|
+| Tamaño | `obtenerTamanio()` (contador) | Es O(1) en tiempo y memoria: no recorre nada, y no puede desbordar la pila. |
+| Costo total | `costoTotal()` (iterativa) | Tiene el mismo tiempo que la recursiva, pero usa memoria constante y funciona con historiales de cualquier largo. |
+| Buscar | `buscar(condicion)` (iterativa) | Igual que el costo total: mismo tiempo, memoria constante y sin riesgo de `RangeError`. |
+| Imprimir al revés | `imprimirAlReves()` (recursiva) | Es la única donde la recursión ahorra construir una estructura auxiliar, y el código es mucho más corto. El historial de una mascota tiene decenas o cientos de atenciones, lejos del límite de la pila. Si algún día los historiales llegaran a decenas de miles, habría que cambiarla por una versión iterativa con un arreglo. |
