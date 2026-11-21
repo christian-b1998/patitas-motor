@@ -1,4 +1,4 @@
-const ListaEnlazada = require('../src/ListaEnlazada');
+const ListaEnlazada = require('../src/estructuras/ListaEnlazada');
 
 function verificar(descripcion, condicion) {
     console.log(condicion ? 'OK    ' : 'FALLA ', descripcion);

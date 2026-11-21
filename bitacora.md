@@ -353,3 +353,30 @@ La causa: cada llamada debe esperar el resultado de la siguiente para sumarle 1,
 | Costo total | `costoTotal()` (iterativa) | Tiene el mismo tiempo que la recursiva, pero usa memoria constante y funciona con historiales de cualquier largo. |
 | Buscar | `buscar(condicion)` (iterativa) | Igual que el costo total: mismo tiempo, memoria constante y sin riesgo de `RangeError`. |
 | Imprimir al revés | `imprimirAlReves()` (recursiva) | Es la única donde la recursión ahorra construir una estructura auxiliar, y el código es mucho más corto. El historial de una mascota tiene decenas o cientos de atenciones, lejos del límite de la pila. Si algún día los historiales llegaran a decenas de miles, habría que cambiarla por una versión iterativa con un arreglo. |
+
+## MiniReto 12: Patitas v1.0, resumen de la semana
+
+| MiniReto | Qué construí | Estructura elegida y por qué |
+|---|---|---|
+| 1. La consulta cero | La clase `Nodo`, las atenciones de Lola enlazadas a mano, el recorrido con `while` y el enlace perdido | Nodos con referencias: cada atención apunta a la siguiente, como la carpeta de la directora |
+| 2. El historial como lista | `ListaEnlazada` con cabeza, cola y tamaño, e inserción al inicio y al final | Lista enlazada con cola: el historial crece por el final, y agregar sin recorrer es O(1) |
+| 3. Corregir el historial | `buscar`, `insertarDespuesDe` y `eliminar` con los casos borde | La misma lista, recorrida con nodo anterior y actual, para quitar o insertar en medio sin romper la cadena |
+| 4. Patitas v0.1 | `RegistroClinico`, el reporte y la tabla de lista contra arreglo | Un `Map` con una lista por mascota: acceso por nombre en O(1) en promedio y listas para agregar atenciones |
+| 5. La sala de espera | `Cola` FIFO con frente y final, y la medición con 100.000 turnos | Cola de nodos: encolar y desencolar son O(1), mientras que `shift` en un arreglo mueve todos los elementos |
+| 6. Urgencias primero | `Recepcion` con dos colas y la simulación por tiempo | Dos colas: la prioridad se resuelve eligiendo cuál cola atender primero, y cada una conserva el orden de llegada |
+| 7. Deshacer y rehacer | `Pila` y `Editor` con acciones reversibles | Dos pilas LIFO: la última acción es la primera en revertirse y una acción nueva vacía la de rehacer |
+| 8. Patitas v0.2 | La simulación integrada: atenciones registradas con el `Editor`, error corregido y aviso de sala vacía | La combinación: colas para los turnos, pilas para las correcciones y listas para los historiales |
+| 9. El catálogo anidado | `contarServicios`, `listarCatalogo` y `profundidad` | Recursión sobre objetos anidados: una subcategoría tiene la misma forma que la categoría, y el código sirve a cualquier profundidad |
+| 10. Rutas y paquetes | `buscarServicio`, `rutaDeServicio`, `precioPaquete` y `serviciosEnRango` | Recursión con retorno temprano y una función auxiliar: la suma recursiva se separa del descuento, que se aplica una sola vez |
+| 11. El historial recursivo | Versiones recursivas de la lista, el desbordamiento con 100.000 nodos y la tabla de tiempo y memoria | Iterativa para tamaño, costo total y búsqueda (memoria O(1)), y recursiva solo para imprimir al revés |
+| 12. Patitas v1.0 | `demo.js`, `src/` en `estructuras/` y `dominio/`, las pruebas finales, el README de producto y este cierre | Integración: cada estructura se usa donde mejor resuelve su problema |
+
+### Qué estructura para cada problema
+
+- **Historial de cada mascota:** lista enlazada, porque se agrega por el final, se lee en orden y no hace falta acceder por posición.
+- **Buscar la mascota por nombre:** `Map`, porque ahí se necesita acceso directo por clave.
+- **Sala de espera:** cola, porque quien llega primero se atiende primero (FIFO).
+- **Urgencias antes que consultas:** dos colas, porque cada tipo conserva su orden de llegada y la prioridad se decide al llamar.
+- **Deshacer y rehacer:** pilas, porque lo último que se hizo es lo primero que se revierte (LIFO).
+- **Catálogo con categorías dentro de categorías:** recursión, porque la estructura se repite a cualquier profundidad.
+- **Operaciones sobre listas largas:** iteración, porque la recursión gasta memoria de pila en proporción al largo de la lista.

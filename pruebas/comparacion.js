@@ -1,4 +1,4 @@
-const Cola = require('../src/Cola');
+const Cola = require('../src/estructuras/Cola');
 
 const N = 100000;
 

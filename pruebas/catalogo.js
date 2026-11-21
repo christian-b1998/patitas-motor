@@ -1,4 +1,4 @@
-const { catalogo, contarServicios, listarCatalogo, profundidad } = require('../src/catalogo');
+const { catalogo, contarServicios, listarCatalogo, profundidad } = require('../src/dominio/catalogo');
 
 function verificar(descripcion, condicion) {
     console.log(condicion ? 'OK    ' : 'FALLA ', descripcion);

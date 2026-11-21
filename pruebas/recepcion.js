@@ -1,4 +1,4 @@
-const Recepcion = require('../src/Recepcion');
+const Recepcion = require('../src/dominio/Recepcion');
 
 function verificar(descripcion, condicion) {
     console.log(condicion ? 'OK    ' : 'FALLA ', descripcion);

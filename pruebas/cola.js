@@ -1,4 +1,4 @@
-const Cola = require('../src/Cola');
+const Cola = require('../src/estructuras/Cola');
 
 function verificar(descripcion, condicion) {
     console.log(condicion ? 'OK    ' : 'FALLA ', descripcion);

@@ -1,4 +1,4 @@
-const RegistroClinico = require('./RegistroClinico');
+const RegistroClinico = require('./dominio/RegistroClinico');
 
 function formatearCosto(costo) {
     return '$' + costo.toLocaleString('es-CO');

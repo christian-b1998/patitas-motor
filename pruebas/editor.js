@@ -1,5 +1,5 @@
-const RegistroClinico = require('../src/RegistroClinico');
-const Editor = require('../src/Editor');
+const RegistroClinico = require('../src/dominio/RegistroClinico');
+const Editor = require('../src/dominio/Editor');
 
 function verificar(descripcion, condicion) {
     console.log(condicion ? 'OK    ' : 'FALLA ', descripcion);

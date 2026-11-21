@@ -1,4 +1,4 @@
-const Pila = require('./Pila');
+const Pila = require('../estructuras/Pila');
 
 class Editor {
     constructor(registro) {

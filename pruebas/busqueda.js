@@ -4,7 +4,7 @@ const {
     rutaDeServicio,
     precioPaquete,
     serviciosEnRango
-} = require('../src/catalogo');
+} = require('../src/dominio/catalogo');
 
 function verificar(descripcion, condicion) {
     console.log(condicion ? 'OK    ' : 'FALLA ', descripcion);

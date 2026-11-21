@@ -1,4 +1,4 @@
-const Pila = require('../src/Pila');
+const Pila = require('../src/estructuras/Pila');
 
 function verificar(descripcion, condicion) {
     console.log(condicion ? 'OK    ' : 'FALLA ', descripcion);

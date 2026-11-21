@@ -1,4 +1,4 @@
-const Nodo = require('../src/Nodo');
+const Nodo = require('../src/estructuras/Nodo');
 
 const atencion1 = {
     fecha: '02/02',

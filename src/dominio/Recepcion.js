@@ -1,4 +1,4 @@
-const Cola = require('./Cola');
+const Cola = require('../estructuras/Cola');
 
 class Recepcion {
     constructor() {
