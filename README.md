@@ -1,6 +1,6 @@
 # Patitas Motor v1.0
 
-Motor de gestión para la clínica veterinaria Patitas. Guarda el historial clínico de cada mascota, organiza la sala de espera dando prioridad a las urgencias, permite deshacer y rehacer los errores de registro y consulta el catálogo de servicios con sus rutas y paquetes. Todas las estructuras de datos están implementadas desde cero con nodos, sin librerías.
+Motor de gestión para la clínica veterinaria Patitas. Guarda el historial clínico de cada mascota, organiza la sala de espera dando prioridad a las urgencias, permite deshacer y rehacer los errores de registro y consulta el catálogo de servicios con sus rutas y paquetes. La lista, la cola y la pila están implementadas desde cero con nodos, sin librerías.
 
 ## Requisitos
 

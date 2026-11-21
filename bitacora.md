@@ -1,12 +1,14 @@
+# Bitácora de Patitas Motor
+
 ## MiniReto 1: repositorio y el nodo
 
-## Diagrama de nodos y flechas
+### Diagrama de nodos y flechas
 
 ```
 cabeza -> [ 02/02 vacunación | siguiente ] -> [ 15/03 control de peso | siguiente ] -> [ 20/05 limpieza dental | siguiente ] -> null
 ```
 
-## Diagrama con enlace perdido
+### Diagrama con enlace perdido
 
 ```
 cabeza -> [ 02/02 vacunación | siguiente ] -> null
@@ -14,7 +16,7 @@ cabeza -> [ 02/02 vacunación | siguiente ] -> null
 [ 15/03 control de peso | siguiente ] -> [ 20/05 limpieza dental | siguiente ] -> null
 ```
 
-## Enlace perdido
+### Enlace perdido
 
 Al asignar `null` al `siguiente` del primer nodo, el recorrido solo imprime la vacunación. El `while (actual !== null)` avanza a `actual.siguiente`, encuentra `null` y se detiene.
 
@@ -71,7 +73,7 @@ Después: cabeza -> [D] -> [A] -> [B] -> [C] -> null     cola -> [C]     tamanio
 Cambia:  cabeza, tamanio y el siguiente de D (el nodo nuevo, que apunta a A). La cola no cambia.
 ```
 
-## Complejidad
+### Complejidad
 
 | Método | Complejidad | Por qué |
 |---|---|---|
@@ -108,7 +110,7 @@ Después: cabeza -> [A] -> [B] -> null     cola -> [B]     tamanio = 2
 Cambia:  el siguiente de B (pasa a null), cola (pasa a B) y tamanio. La cabeza no cambia.
 ```
 
-## Complejidad
+### Complejidad
 
 | Método | Complejidad | Por qué |
 |---|---|---|
@@ -116,7 +118,7 @@ Cambia:  el siguiente de B (pasa a null), cola (pasa a B) y tamanio. La cabeza n
 | `insertarDespuesDe` | O(n) | Encontrar el nodo cuesta O(n) en el peor caso. Enlazar el nodo nuevo es O(1). |
 | `eliminar` | O(n) | Encontrar el nodo cuesta O(n) en el peor caso. Reconectar las referencias es O(1). Si el nodo es la cabeza, solo hace una comparación. |
 
-## ¿Por qué eliminar la cola requiere recorrer la lista?
+### ¿Por qué eliminar la cola requiere recorrer la lista?
 
 Para eliminar la cola hay que hacer que el nodo anterior quede con `siguiente` en `null` y que pase a ser la nueva cola. Pero en una lista simplemente enlazada cada nodo solo apunta hacia adelante, y la cola no sabe quién la precede. La referencia `cola` solo señala el último nodo, no el penúltimo. La única forma de llegar al penúltimo es empezar en `cabeza` y avanzar hasta el nodo cuyo `siguiente` es la cola, lo que visita casi todos los nodos: O(n). Es la diferencia con `agregarAlFinal`, que es O(1) porque solo necesita la cola, y no su anterior.
 
@@ -153,10 +155,10 @@ Cambia:  frente (pasa a Toby) y cantidad. El final no cambia.
 
 | Operación | Tiempo |
 |---|---|
-| Cola: encolar | ___ ms |
-| Cola: desencolar | ___ ms |
-| Arreglo: push | ___ ms |
-| Arreglo: shift | ___ |
+| Cola: encolar | 22.217 ms |
+| Cola: desencolar | 2.222 ms |
+| Arreglo: push | 8.847 ms |
+| Arreglo: shift | 18.353 s |
 
 ### Complejidad
 
@@ -205,7 +207,7 @@ Promedio de espera en generales: (0 + 75 + 80 + 80) / 4 = 58,75 min.
 
 ### Comparación con el programa
 
-`node src/simulacion.js` produce el mismo orden, las mismas horas de inicio, las mismas esperas y los mismos promedios que el cálculo manual. No hubo diferencias que documentar.
+La simulación (src/dominio/simulacion.js, que se ejecuta con node demo.js) produce el mismo orden, las mismas horas de inicio, las mismas esperas y los mismos promedios que el cálculo manual. No hubo diferencias que documentar.
 
 ## MiniReto 7: la pila y el deshacer
 
